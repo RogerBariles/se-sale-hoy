@@ -1,0 +1,33 @@
+<div class="container-fluid vh-100">
+    <div class="container-fluid vh-100">
+        <div class="row vh-100">
+
+            <div class="col-12 col-md-6 my-auto text-center">
+                <img class="fondoLogin " src="../../../assets/images/fondos/fondoLogin.jpg">
+            </div>
+            <div class="col-12 col-md-6 my-auto ">
+                <form [formGroup]="formLogin">
+                    <p class="fs-1 text-center">Iniciar Sesion</p>
+
+                    <p class="fs-5 mt-2 mb-0 text-center">Usuario</p>
+                    <div class="input-group mb-3 mx-auto">
+                        <input type="text" class="form-control" formControlName="nameuser">
+                    </div>
+
+                    <p class="fs-5 mt-2 mb-0 text-center">Contraseña</p>
+                    <div class="input-group mb-3 mx-auto">
+                        <input type="password" class="form-control" formControlName="password">
+                    </div>
+
+
+
+                    <div class="mt-4 d-grid input-group mx-auto">
+                        <p class="textError text-center pb-3" *ngIf="error"> {{ error }}</p>
+                        <button class="btn btn-success" type="button" [disabled]="this.formLogin.invalid" (click)="loguin()">INGRESAR</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
