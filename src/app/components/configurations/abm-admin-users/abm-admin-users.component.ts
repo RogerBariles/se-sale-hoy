@@ -12,9 +12,11 @@ import { usersService } from 'src/app/services/users.service';
 export class AbmAdminUsersComponent implements OnInit {
 
   @ViewChild('modalUser', { static: false }) modalUser: ElementRef;
+  @ViewChild('modalUserClosed', { static: false }) modalUserClosed: ElementRef;
   listUser: User[];
-  roles: any;
+  roles: any[];
   accion: string;
+  dataUser: User;
 
   formUser: FormGroup;
 
@@ -44,11 +46,14 @@ export class AbmAdminUsersComponent implements OnInit {
   //------------------------
   initForm() {
     this.formUser = this.fb.group({
+      id: [''],
       nameUser: ['', Validators.required],
       nombre: ['', [Validators.required]],
       numero: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      roles: [[], [Validators.required]]
+      ROLE_ADMIN: [false],
+      ROLE_EMPLEADO: [false],
+      ROLE_SUPER_ADMIN: [false]
     });
   }
 
@@ -57,17 +62,34 @@ export class AbmAdminUsersComponent implements OnInit {
   //--------------------
   openUsers(user: User) {
     this.accion = 'Editar';
+    this.setRoles(user);
+
+    this.formUser.get("id").setValue(user.id);
+    this.formUser.get("nameUser").setValue(user.nameUser);
+    this.formUser.get("nombre").setValue(user.nombre);
+    this.formUser.get("email").setValue(user.email);
+    this.formUser.get("numero").setValue(user.numero);
+    this.formUser.get("ROLE_EMPLEADO").setValue(this.roles[0]);
+    this.formUser.get("ROLE_ADMIN").setValue(this.roles[1]);
+    this.formUser.get("ROLE_SUPER_ADMIN").setValue(this.roles[2]);
+
+    this.dataUser = this.formUser.value;
+
+
+    this.modalUser.nativeElement.click();
+  };
+
+  //-------
+  // Roles
+  //-------
+  setRoles(user: User) {
     let auxRoles = [];
+    this.roles = [];
     let roles = {
       ROLE_EMPLEADO: false,
       ROLE_ADMIN: false,
       ROLE_SUPER_ADMIN: false
     }
-
-    this.formUser.get("nameUser").setValue(user.nameUser);
-    this.formUser.get("nombre").setValue(user.nombre);
-    this.formUser.get("email").setValue(user.email);
-    this.formUser.get("numero").setValue(user.numero);
 
     user.roles.forEach(unRol => {
       auxRoles.push(unRol.rol);
@@ -84,12 +106,56 @@ export class AbmAdminUsersComponent implements OnInit {
           break;
       };
     })
-    this.roles = roles;
-    this.formUser.get("roles").setValue(auxRoles);
-
-    this.modalUser.nativeElement.click();
+    this.roles.push(roles.ROLE_EMPLEADO);
+    this.roles.push(roles.ROLE_ADMIN);
+    this.roles.push(roles.ROLE_SUPER_ADMIN);
   };
 
+  //------------------------------
+  // Actualizamos datos
+  //------------------------------
+  guardarDatos(): void {
+    let roles: any[] = [];
+    if (this.formUser.get("ROLE_EMPLEADO").value) {
+      roles.push("ROLE_EMPLEADO");
+    }
+
+    if (this.formUser.get("ROLE_ADMIN").value) {
+      roles.push("ROLE_ADMIN");
+    }
+
+    if (this.formUser.get("ROLE_SUPER_ADMIN").value) {
+      roles.push("ROLE_SUPER_ADMIN");
+    }
+
+
+    const USER_UPDATE = {
+      email: this.formUser.get("email").value,
+      id: this.formUser.get("id").value,
+      nameUser: this.formUser.get("nameUser").value,
+      nombre: this.formUser.get("nombre").value,
+      numero: this.formUser.get("numero").value,
+      roles: roles
+    }
+    this.usersService.updateUsers(USER_UPDATE).subscribe(
+      list_users => {
+        this.listUser = list_users;
+        this.modalUserClosed.nativeElement.click();
+      }, error => {
+
+      });
+  }
+
+  //---------------------------------------
+  // Validamos que los datos hayan cambiado
+  //---------------------------------------
+  validUpdateData(): boolean {
+    if (this.dataUser != this.formUser.value) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 
 }

@@ -18,4 +18,8 @@ export class usersService {
         return this.http.get<User[]>(environment.apiUrl + this.endpoint + '/list').pipe(take(1));
     }
 
+    updateUsers(userUpdate): Observable<User[]> {
+        return this.http.put<User[]>(environment.apiUrl + this.endpoint + '/update', userUpdate).pipe(take(1));
+    }
+
 }

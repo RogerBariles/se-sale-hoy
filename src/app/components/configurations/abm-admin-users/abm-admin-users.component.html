@@ -39,7 +39,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">{{accion}} Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button #modalUserClosed type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="formUser">
@@ -55,12 +55,16 @@
                         <input class="form-control" [ngClass]="{'is-valid': this.formUser.get('email').valid, 'is-invalid': this.formUser.get('email').invalid}" id="floatingInputInvalid" formControlName="email">
                         <label for="floatingInputInvalid">Email</label>
                     </div>
+                    <div class="form-floating mt-3">
+                        <input class="form-control" [ngClass]="{'is-valid': this.formUser.get('numero').valid, 'is-invalid': this.formUser.get('numero').invalid}" id="floatingInputInvalid" formControlName="numero">
+                        <label for="floatingInputInvalid">Número</label>
+                    </div>
 
                     <div class="container mt-4">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-check">
-                                    <input #inputEmpleado class="form-check-input" type="checkbox" name="flexRadioDefault" [checked]="roles.ROLE_EMPLEADO">
+                                    <input #inputEmpleado type="checkbox" formControlName="ROLE_EMPLEADO" class="form-check-input" name="flexRadioDefault">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                       EMPLEADO
                                     </label>
@@ -68,7 +72,7 @@
                             </div>
                             <div class="col-6 ">
                                 <div class="form-check">
-                                    <input #inputAdmin class="form-check-input" type="checkbox" name="flexRadioDefault" [checked]="roles.ROLE_ADMIN">
+                                    <input #inputAdmin class="form-check-input" type="checkbox" name="flexRadioDefault" formControlName="ROLE_ADMIN">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                       ADMIN
                                     </label>
@@ -76,18 +80,20 @@
                             </div>
                             <div class="col-12 ">
                                 <div class="form-check">
-                                    <input #inputSuperAdmin class="form-check-input" type="checkbox" name="flexRadioDefault" [checked]="roles.ROLE_SUPER_ADMIN">
+                                    <input #inputSuperAdmin class="form-check-input" type="checkbox" name="flexRadioDefault" formControlName="ROLE_SUPER_ADMIN">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                       DESARROLLADOR
                                     </label>
                                 </div>
                             </div>
+
+                            <p *ngIf="this.formUser.get('ROLE_SUPER_ADMIN').value" class="text-center mt-4 textInfo">El rol desarrollador tiene permisos para todos los lugares.</p>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-success" [disabled]="validUpdateData()" (click)="guardarDatos()">Guardar</button>
             </div>
         </div>
     </div>

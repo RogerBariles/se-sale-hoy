@@ -1,4 +1,7 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { CommonSerivice } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  rolSuper: string;
+  optionsMenu: boolean;
+
+  constructor(
+    private commonService: CommonSerivice
+  ) {
+    this.rolSuper = "ROLE_EMPLEADO";
+    this.optionsMenu = false;
+  }
 
   ngOnInit(): void {
+    this.rolSuper = this.commonService.getRole();
+
+    this.setDashboard();
+  };
+
+  //-------------------------------------
+  // Seteamos opciones del menu segun rol
+  //-------------------------------------
+  setDashboard() {
+    if (this.rolSuper != "ROLE_EMPLEADO" && this.rolSuper != "ROLE_ADMIN") {
+      this.optionsMenu = true;
+    }
   }
 
 }
