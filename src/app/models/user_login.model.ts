@@ -1,7 +1,8 @@
 export interface UserLogin {
     token: string;
     nameUser: string;
-    authorities: Authorities[]
+    authorities: Authorities[],
+    idUser: number
 };
 
 export interface Authorities {

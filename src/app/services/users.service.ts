@@ -20,6 +20,10 @@ export class usersService {
 
     updateUsers(userUpdate): Observable<User[]> {
         return this.http.put<User[]>(environment.apiUrl + this.endpoint + '/update', userUpdate).pipe(take(1));
-    }
+    };
+
+    getDataUsers(idUser): Observable<User> {
+        return this.http.get<User>(environment.apiUrl + this.endpoint + '/' + idUser).pipe(take(1));
+    };
 
 }

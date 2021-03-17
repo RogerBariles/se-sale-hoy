@@ -15,10 +15,10 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: 'authentication',
+    path: '',
     children: [
       {
-        path: '',
+        path: 'authentication',
         loadChildren: () => import('./components/authentications/authentications.module').then(m => m.AuthenticacionModule)
       }
     ]

@@ -1,4 +1,40 @@
 <div class="container-fluid">
-    <p class="fs-4 pt-3">Usuario: {{user.nameUser}}</p>
+    <p class="fs-4 pt-3">Usuario: {{user?.nombre}}</p>
 
+    <select class="form-select" aria-label="Default select example" (change)="selectPlace($event.target.value)">
+        <option selected>Seleccionar Local</option>
+        <option [value]="anPlace.id" *ngFor="let anPlace of listPlaces">{{anPlace.nombre}}</option>
+      </select>
+
+    <select *ngIf="idPlaceSelect != 0" class="form-select " aria-label="Default select example" (change)="selectBranchOffice($event.target.value)">
+        <option selected>Seleccionar sucursal</option>
+        <option [value]="anBranchOffice.id" *ngFor="let anBranchOffice of listBranchOffice">{{anBranchOffice.direccion}}</option>
+      </select>
+
+    <button *ngIf="idBranchOffice != 0" type="button" class="btn btn-success" (click)="asignarToUser()">Asignar</button>
+
+    <table class="table mx-auto">
+        <thead>
+            <tr>
+                <th scope="col">Lugar</th>
+                <th scope="col">Sucursal</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let anPlaceBranchOffice of listPlaceBranchOfficeByUser">
+                <td>{{ anPlaceBranchOffice.lugar.nombre }}</td>
+                <td>{{ anPlaceBranchOffice.sucursal.direccion }}</td>
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                      </svg>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr> -->
+        </tbody>
+    </table>
 </div>

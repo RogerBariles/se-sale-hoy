@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { CommonSerivice } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-authentications',
@@ -18,7 +17,6 @@ export class AuthenticationsComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthenticationService,
     private router: Router,
-    private commonService: CommonSerivice
   ) {
     this.error = null;
   }
@@ -45,7 +43,7 @@ export class AuthenticationsComponent implements OnInit {
       this.auth.login(this.formLogin).subscribe(
         logueado => {
           localStorage.setItem("token", logueado.token);
-          this.commonService.setRole(this.userRol(logueado.authorities));
+          localStorage.setItem("token_id", logueado.idUser.toString());
           this.router.navigate(['/configurations']);
         }, error => {
           this.error = "Usuarios incorrecto";

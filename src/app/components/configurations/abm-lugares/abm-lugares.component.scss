@@ -9,3 +9,12 @@
     filter: shadow(color=#999999, direction=135, strength=4);
     border-radius: 10px;
 }
+
+.modal-content {
+    min-width: 700px !important;
+}
+
+.modal-body {
+    max-height: 200px;
+    overflow-y: scroll;
+}

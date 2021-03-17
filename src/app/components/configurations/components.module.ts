@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AbmLugaresComponent } from './abm-lugares/abm-lugares.component';
 
 import { ComponentsRoutes } from './components.routing';
-import { AbmAdminUsersComponent } from './abm-admin-users/abm-admin-users.component';
-import { ConfigationUserComponent } from './abm-admin-users/configation-user/configation-user.component';
-import { ConfigurationsComponent } from './configurations.component';
-import { DashboardComponent } from '../static/dashboard/dashboard.component';
-import { NavbarComponent } from '../static/navbar/navbar.component';
-import { AppModule } from 'src/app/app.module';
+
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { StaticModule } from '../static/static.module';
+import { ConfigurationsComponent } from './configurations.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbmLugaresComponent } from './abm-lugares/abm-lugares.component';
+import { AbmSucursalesComponent } from './abm-lugares/abm-sucursales/abm-sucursales.component';
+import { ConfigationUserComponent } from './abm-admin-users/configation-user/configation-user.component';
+import { AbmAdminUsersComponent } from './abm-admin-users/abm-admin-users.component';
+import { MisSucursalesComponent } from './mis-sucursales/mis-sucursales.component';
+import { ConfigurationsSucursalComponent } from './mis-sucursales/configurations-sucursal/configurations-sucursal.component';
 
 @NgModule({
     imports: [
@@ -21,14 +21,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         StaticModule,
         RouterModule.forChild(ComponentsRoutes),
-        RouterModule
     ],
     exports: [],
     declarations: [
+        ConfigurationsComponent,
         AbmLugaresComponent,
+        AbmSucursalesComponent,
         AbmAdminUsersComponent,
         ConfigationUserComponent,
-        ConfigurationsComponent
+        MisSucursalesComponent,
+        ConfigurationsSucursalComponent
     ],
     providers: [],
 })

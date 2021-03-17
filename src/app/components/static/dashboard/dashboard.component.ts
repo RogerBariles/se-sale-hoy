@@ -1,7 +1,8 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { CommonSerivice } from 'src/app/services/common.service';
+import { User } from 'src/app/models/user.model';
+import { usersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,28 +12,39 @@ import { CommonSerivice } from 'src/app/services/common.service';
 export class DashboardComponent implements OnInit {
 
   rolSuper: string;
+
+  idUser: number;
+
   optionsMenu: boolean;
 
+  user: User;
   constructor(
-    private commonService: CommonSerivice
+    private userService: usersService
   ) {
     this.rolSuper = "ROLE_EMPLEADO";
     this.optionsMenu = false;
   }
 
   ngOnInit(): void {
-    this.rolSuper = this.commonService.getRole();
+    this.idUser = +localStorage.getItem("token_id");
+    this.userService.getDataUsers(this.idUser).subscribe(
+      dataUser => {
+        this.user = dataUser;
+        this.setDashboard();
+      }, error => {
 
-    this.setDashboard();
+      });
   };
 
   //-------------------------------------
   // Seteamos opciones del menu segun rol
   //-------------------------------------
   setDashboard() {
-    if (this.rolSuper != "ROLE_EMPLEADO" && this.rolSuper != "ROLE_ADMIN") {
-      this.optionsMenu = true;
-    }
-  }
+    this.user.roles.forEach(unRol => {
+      if (unRol.rol != "ROLE_EMPLEADO" && unRol.rol != "ROLE_ADMIN") {
+        this.optionsMenu = true;
+      };
+    });
+  };
 
 }

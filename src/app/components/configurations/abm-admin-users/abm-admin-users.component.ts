@@ -1,6 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { usersService } from 'src/app/services/users.service';
 
@@ -23,7 +24,8 @@ export class AbmAdminUsersComponent implements OnInit {
   constructor(
     private usersService: usersService,
     private fb: FormBuilder,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
     this.roles = [];
 
@@ -155,7 +157,14 @@ export class AbmAdminUsersComponent implements OnInit {
     } else {
       return true;
     }
-  }
+  };
+
+  //--------------------------------------------------------------------
+  // Redireccionamos para moostrar los sucursales relacionadas al idUser
+  //--------------------------------------------------------------------
+  redirecto(idUser): void {
+    this.router.navigate(['configurations/usuarios/local', idUser]);
+  };
 
 
 }
